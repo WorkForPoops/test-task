@@ -1,26 +1,49 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { withRouter, Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './redux/redux-store';
+import './App.css'
+import Login from './components/Login/Login'
+import ProfileContainer from './components/Profile/ProfileContainer'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+
+  // componentDidMount() {
+  //   this.props.initializeApp();
+  // }
+
+  
+
+  render() {
+    return (
+      <div>
+        <Route path='/' exact render={ () => <Redirect to={'/profile'}/> }/>
+        <Route path='/profile' render={ () => <ProfileContainer /> }/>
+        <Route path='/login' render={ () => <Login /> }/>
+      </div>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = (state) =>({
+
+})
+
+let AppContainer = compose(
+  withRouter,
+  connect(mapStateToProps, ))(App);
+
+const MainApp = (props) => {
+  return(
+    <BrowserRouter>
+        <Provider store={store}>
+            <AppContainer />
+        </Provider>
+    </BrowserRouter>
+  )
+}
+
+export default MainApp;
